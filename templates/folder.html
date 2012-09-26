@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block content %}
+<h1>{{ folder.name }}</h1>
+<table>
+	{% for item in folder.item_set.all %}
+	<tr>
+		<td>
+			
+			{% thumbnail item.getFilePath "160x160" crop="center" as im %}
+    		<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+			{% endthumbnail %}
+			
+			{{ item.getFilePath }}
+		</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock content %}

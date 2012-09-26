@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<table>
+{% for folder in folders %}
+	<tr>
+		<td><a href="/folder/{{ folder.slug }}">{{ folder.name }}</a></td>
+	</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

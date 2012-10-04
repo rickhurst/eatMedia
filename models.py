@@ -5,9 +5,14 @@ class Folder(models.Model):
   file_path = models.CharField(max_length=500)
   name = models.CharField(max_length=200)
   slug = models.CharField(max_length=200)
+  uid = models.CharField(max_length=30, blank=True)
 
   def __unicode__(self):
     return self.name
+
+  def images(self):
+    images = Item.objects.filter(folder=self, item_type=1)
+    return images
 
 # class Set(models.Model):
 #   name = models.CharField(max_length=200)

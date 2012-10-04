@@ -1,0 +1,14 @@
+.folder {
+	position:relative;
+	float:left;
+}
+
+.folder span.folder-name {
+	position:absolute;
+	display:block;
+	top:0;
+	left:0;
+	background:#fff;
+	padding:2px 5px;
+	box-shadow: 7px 7px 5px rgba(50, 50, 50, 0.75);
+}

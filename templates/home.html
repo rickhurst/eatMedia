@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
+{% load thumbnail %}
 {% block content %}
 
-<table>
+
 {% for folder in folders %}
-	<tr>
-		<td><a href="/folder/{{ folder.slug }}">{{ folder.name }}</a></td>
-	</tr>
+	<div class="folder">
+		<a href="/folder/{{ folder.slug }}">
+			{% with folder.images|first as img %}
+				{% thumbnail img.getFilePath "160x160" crop="center" as im %}
+					<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" />
+				{% endthumbnail %}
+			<span class="folder-name">{{ folder.name }}</span>
+			{% endwith %}
+		</a>
+	</div>
 {% endfor %}
-</table>
+
 
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.template import Context, loader
 from eatMedia.models import Folder, Item, ItemType
-from eatMedia.utils import getItemType
+from eatMedia.utils import getItemType, getUID, slugify
 from django.http import HttpResponse
 from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
@@ -49,14 +49,15 @@ def ingest(request):
           # TODO: check for presence of meta file with old id
 
           # create new folder
-          folder = Folder(file_path=folder_path, name=item, slug=item)
+          uid = getUID()
+          folder = Folder(file_path=folder_path, name=item, slug=slugify(item), uid=uid)
           folder.save()
 
           out.append('created Folder ' + item)
 
-          meta_file_path = os.path.join(folder_path, '._id.meta')
+          meta_file_path = os.path.join(folder_path, '._eatMedia.meta')
           meta_file = open(meta_file_path, 'w')
-          meta_file.write(str(folder.id))
+          meta_file.write('uid:' + uid)
           meta_file.close
 
         # loop through files in the folder
@@ -70,6 +71,9 @@ def ingest(request):
             try:
               file_type = imghdr.what(folder_item_path)
             except:
+              file_type = 'unknown'
+
+            if not file_type:
               file_type = 'unknown'
 
             out.append(file_type)

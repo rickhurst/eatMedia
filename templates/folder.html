@@ -4,7 +4,11 @@
 {% block content %}
 <h1>{{ folder.name }}</h1>
 	<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
-	{% for item in folder.item_set.all %}
+	{% for item in folder.images %}
+			
+			{# item #}
+
+			
 
 			{% thumbnail item.getFilePath "1000" as full %}
 				<a href="{{ full.url }}" rel="gallery">
@@ -13,6 +17,8 @@
 				{% endthumbnail %}
 				</a>
 			{% endthumbnail %}
+			
+			
 	
 			<!--{{ item.getFilePath }}-->
 	

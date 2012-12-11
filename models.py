@@ -17,8 +17,16 @@ class Folder(models.Model):
 # class Set(models.Model):
 #   name = models.CharField(max_length=200)
 
+class ItemCategory(models.Model):
+  name = models.CharField(max_length= 200)
+
+  def __unicode__(self):
+    return self.name 
+
+
 class ItemType(models.Model):
   name = models.CharField(max_length=200)
+  category = models.ForeignKey(ItemCategory, null=True)
 
   def __unicode__(self):
     return self.name

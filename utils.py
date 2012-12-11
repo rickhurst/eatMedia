@@ -1,4 +1,4 @@
-from eatMedia.models import Folder, Item, ItemType
+from eatMedia.models import Folder, Item, ItemType, ItemCategory
 from django.conf import settings
 import random
 import string
@@ -10,10 +10,25 @@ def getItemType(name):
   try:
     item_type = ItemType.objects.get(name=name)
   except:
-    item_type = ItemType(name=name)
+
+    if name in ['jpeg','png']:
+      file_cat = getItemCat('image')
+    else
+      file_cat = getItemCat('unknown')
+
+    item_type = ItemType(name=name, category=item_cat)
     item_type.save()
 
   return item_type
+
+def getItemCat(name):
+  try:
+    item_cat = ItemCategory.objects.get(name=name)
+  except:
+    item_cat = ItemCategory(name=name)
+    item_cat.save()
+
+  return item_cat
 
 def getUID(size=10, chars=string.ascii_uppercase + string.digits):
   return ''.join(random.choice(chars) for x in range(size))
@@ -80,6 +95,7 @@ def ingest(path):
             # get the file type
             try:
               file_type = imghdr.what(folder_item_path)
+
             except:
               file_type = 'unknown'
 
@@ -96,4 +112,5 @@ def ingest(path):
               media_item = Item(folder=folder, name=folder_item, file_name=folder_item, item_type=getItemType(file_type))
               media_item.save()
               out.append('added ' + folder_item)
+
   return out
